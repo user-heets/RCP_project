@@ -14,9 +14,9 @@
 
 body {
     font-family: 'Roboto', sans-serif;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px;
+    max-width: 100%;
+    margin: 0;
+    padding: 20px;
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
@@ -25,24 +25,26 @@ body {
 h1 {
     text-align: center;
     color: var(--text-color);
-    font-size: 2.5em;
+    font-size: 2em;
     font-weight: 500;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 #name-input {
     text-align: center;
-    margin: 30px 0;
+    margin: 20px 0;
 }
 
 #name-input input {
-    padding: 12px 20px;
-    margin-right: 15px;
+    padding: 10px 15px;
+    margin-right: 10px;
     border: none;
     border-radius: var(--border-radius);
     font-size: 1em;
     box-shadow: var(--shadow);
     transition: var(--transition);
+    width: 70%;
+    max-width: 300px;
 }
 
 #name-input input:focus {
@@ -51,7 +53,7 @@ h1 {
 }
 
 #name-input button {
-    padding: 12px 24px;
+    padding: 10px 20px;
     background-color: var(--primary-color);
     color: white;
     border: none;
@@ -69,14 +71,14 @@ h1 {
 
 #game {
     text-align: center;
-    margin: 40px 0;
+    margin: 30px 0;
 }
 
 .choice {
     cursor: pointer;
-    font-size: 2.5em;
-    margin: 0 20px;
-    padding: 20px 40px;
+    font-size: 2em;
+    margin: 10px;
+    padding: 15px 30px;
     border: none;
     border-radius: 12px;
     background-color: white;
@@ -91,19 +93,19 @@ h1 {
 }
 
 .result {
-    margin-top: 30px;
-    font-size: 1.4em;
+    margin-top: 20px;
+    font-size: 1.2em;
     text-align: center;
-    padding: var(--padding-large);
+    padding: var(--padding-medium);
     border-radius: var(--border-radius);
     background-color: white;
     box-shadow: var(--shadow);
 }
 
 .leaderboard {
-    margin-top: 50px;
+    margin-top: 40px;
     background-color: white;
-    padding: 30px;
+    padding: 20px;
     border-radius: 12px;
     box-shadow: var(--shadow);
 }
@@ -112,20 +114,25 @@ h1 {
     text-align: center;
     color: var(--text-color);
     font-weight: 500;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    font-size: 1.5em;
 }
 
 table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-top: 20px;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.9em;
 }
 
-th, td {
-    padding: var(--padding-medium);
+th,
+td {
+    padding: var(--padding-small);
     text-align: left;
     border: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 th {
@@ -155,23 +162,50 @@ tr:hover {
     background-color: rgba(205, 127, 50, 0.1);
 }
 
-#result:empty {
-    display: none;
-}
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     body {
-        padding: 20px;
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+
+    #name-input input {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
     }
 
     .choice {
-        font-size: 2em;
-        margin: 0 10px;
-        padding: 15px 30px;
+        font-size: 1.5em;
+        margin: 5px;
+        padding: 10px 20px;
+    }
+
+    .result {
+        font-size: 1em;
+        padding: var(--padding-small);
+    }
+
+    .leaderboard {
+        padding: 10px;
+    }
+
+    .leaderboard h2 {
+        font-size: 1.3em;
+        margin-bottom: 10px;
     }
 
     table {
-        font-size: 0.9em;
+        font-size: 0.8em;
+    }
+
+    th,
+    td {
+        padding: 5px;
     }
 }
 
