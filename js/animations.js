@@ -155,3 +155,31 @@ export function animateCounterUpdate(element, newValue) {
         element.classList.remove('count-up');
     }, 500);
 }
+
+// About page
+export function aboutPageAnimations() {
+    function isElementInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
+
+    function handleScroll() {
+        document.querySelectorAll('.about-section').forEach(section => {
+            if (isElementInViewport(section)) {
+                section.classList.add('visible');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('load', handleScroll);
+}
+
+if (window.location.pathname.includes('about.html')) {
+    aboutPageAnimations();
+}

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>About | Rock Scissors Paper</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="module" src="js/animations.js"></script>
+</head>
+<body>
+<header class="fade-in">
+  <h1>About</h1>
+  <nav style="text-align:center; margin-bottom:30px;">
+    <a href="index.html" class="nav-link">Game</a>
+    <a href="about.html" class="nav-link active">About</a>
+  </nav>
+</header>
+
+<main style="max-width:800px; margin:0 auto;">
+  <section class="about-section fade-in-up" style="background:white; border-radius:12px; box-shadow:var(--shadow); padding:30px; margin-bottom:30px;">
+    <h2 style="color:var(--secondary-color); margin-bottom:20px;" class="slide-in-left">Project Description</h2>
+    <p class="fade-in-up">
+      <strong class="highlight-text">"Rock, Paper, Scissors" Website</strong><br><br>
+      The website is the first stage of a larger project and represents an interactive game where the user competes against a computer opponent in the classic "Rock, Paper, Scissors" game.<br><br>
+      The main goal of this stage is to create a fun and engaging online experience that not only allows users to play, but also demonstrates the foundation for more advanced features in the future. The site features a leaderboard, smooth animations, and a pseudo-AI opponent that analyzes your moves to provide a more challenging gameplay.<br><br>
+      This project is open source, and you can find the full code and follow the development on my GitHub:<br>
+      <a href="https://github.com/user-heets/RCP_project" target="_blank" class="github-button">
+        GitHub Repository
+      </a>
+    </p>
+  </section>
+
+  <section class="about-section fade-in-up" style="background:white; border-radius:12px; box-shadow:var(--shadow); padding:30px; margin-bottom:30px;">
+    <h2 style="color:var(--secondary-color); margin-bottom:20px;" class="slide-in-right">Project Stages</h2>
+    <div class="stage-item fade-in-up">
+      <div class="stage-title">
+        <span class="stage-number">1</span>
+        <span>Website (current stage)</span>
+      </div>
+      <p>Development of an interactive website where users can play "Rock, Paper, Scissors" against the computer.</p>
+      <div class="gallery-image">
+        <img src="https://placehold.co/800x400" alt="Website Stage" style="max-width:100%; border-radius:8px; margin-top:10px;">
+      </div>
+    </div>
+
+    <div class="stage-item fade-in-up" style="animation-delay: 0.2s;">
+      <div class="stage-title">
+        <span class="stage-number">2</span>
+        <span>AI Model</span>
+      </div>
+      <p>Creation and training of an artificial intelligence model capable of recognizing hand gestures (rock, paper, scissors) in real time via camera.</p>
+      <div class="gallery-image">
+        <img src="https://placehold.co/800x400" alt="AI Model Stage" style="max-width:100%; border-radius:8px; margin-top:10px;">
+      </div>
+    </div>
+
+    <div class="stage-item fade-in-up" style="animation-delay: 0.4s;">
+      <div class="stage-title">
+        <span class="stage-number">3</span>
+        <span>Robotic Hand</span>
+      </div>
+      <p>Development of a robotic hand that will play "Rock, Paper, Scissors" with a human and always win.</p>
+      <div class="gallery-image">
+        <img src="https://placehold.co/800x400" alt="Robotic Hand Stage" style="max-width:100%; border-radius:8px; margin-top:10px;">
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section fade-in-up" style="background:white; border-radius:12px; box-shadow:var(--shadow); padding:30px; margin-bottom:30px;">
+    <h2 style="color:var(--secondary-color); margin-bottom:20px;" class="slide-in-right">Inspiration</h2>
+    <p class="fade-in-up">
+      The original idea for this project belongs to <strong class="highlight-text">Mark Rober</strong>, who created a robotic hand that always wins at "Rock, Paper, Scissors." I was inspired by his work and decided to try to recreate this project myself.
+    </p>
+    <div class="video-container fade-in-up" style="animation-delay: 0.3s;">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/qgZReY9jnj4" title="Mark Rober Rock Paper Scissors Robot" allowfullscreen></iframe>
+    </div>
+    <p style="font-size:0.95em; color:#666; margin-top:10px; text-align:center;" class="fade-in-up" style="animation-delay: 0.5s;">
+      Watch the original project by Mark Rober
+    </p>
+  </section>
+
+  <section class="about-section fade-in-up" style="background:white; border-radius:12px; box-shadow:var(--shadow); padding:30px; margin-bottom:30px;">
+    <h2 style="color:var(--secondary-color); margin-bottom:20px;" class="slide-in-right">Technical Implementation</h2>
+
+    <div class="fade-in-up">
+      <h3 style="color:var(--primary-color); margin:20px 0 10px;">Frontend</h3>
+      <ul style="list-style-type:none; padding-left:0;">
+        <li class="tech-item">
+          <div class="tech-icon">JS</div>
+          Built with plain JavaScript, without any frameworks
+        </li>
+        <li class="tech-item">
+          <div class="tech-icon">CSS</div>
+          Animations are implemented using CSS <code>@keyframes</code> for smooth transitions
+        </li>
+      </ul>
+
+      <div class="code-block">
+        <span class="code-label">CSS Animation</span>
+        <pre>@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}</pre>
+      </div>
+
+      <p>Communication with the backend is done via REST API:</p>
+
+      <div class="code-block">
+        <span class="code-label">JavaScript API Call</span>
+        <pre>export async function makePlayerChoice(playerName, userChoice) {
+  const response = await fetch(API_BASE_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      player_name: playerName,
+      user_choice: userChoice
+    })
+  });
+}</pre>
+      </div>
+    </div>
+
+    <div class="fade-in-up" style="animation-delay: 0.3s;">
+      <h3 style="color:var(--primary-color); margin:30px 0 10px;">Backend</h3>
+      <ul style="list-style-type:none; padding-left:0;">
+        <li class="tech-item">
+          <div class="tech-icon">PHP</div>
+          Written in PHP using PDO for database operations
+        </li>
+        <li class="tech-item">
+          <div class="tech-icon">SQL</div>
+          SQLite database is used to store game results and the leaderboard
+        </li>
+      </ul>
+
+      <p>Pseudo-AI logic for decision-making:</p>
+
+      <div class="code-block">
+        <span class="code-label">PHP AI Logic</span>
+        <pre>private function getAIChoice(string $game_id, string $player_name): string {
+  // Get player's move history
+  $stmt = $this->db->prepare(
+    "SELECT user_choice
+    FROM games
+    WHERE game_id = ? AND player_name = ?
+    ORDER BY played_at DESC
+    LIMIT 10"
+  );
+  $stmt->execute([$game_id, $player_name]);
+  $history = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+  // If no history, pick randomly
+  if (empty($history)) {
+    return self::CHOICES[array_rand(self::CHOICES)];
+  }
+
+  // Analyze player patterns
+  $counts = array_count_values($history);
+  $most_frequent = array_search(max($counts), $counts);
+
+  // Try to win if a pattern is detected
+  $winning_moves = array_flip(self::WINNING_COMBINATIONS);
+  if (max($counts) > count($history) / 3) {
+    return $winning_moves[$most_frequent];
+  }
+
+  return self::CHOICES[array_rand(self::CHOICES)];
+}</pre>
+      </div>
+    </div>
+
+    <div class="fade-in-up" style="animation-delay: 0.5s;">
+      <h3 style="color:var(--primary-color); margin:30px 0 10px;">Functionality</h3>
+      <ul style="padding-left:20px;">
+        <li>The game consists of 10 rounds where the user plays against the computer.</li>
+        <li>The leaderboard displays the top 20 players by number of wins.</li>
+        <li>The pseudo-AI analyzes the player's move history to detect patterns.</li>
+        <li>If the player favors a certain move (uses it more than a third of the time), the AI chooses the move that beats it.</li>
+        <li>Otherwise, the AI picks randomly.</li>
+      </ul>
+    </div>
+
+    <div class="fade-in-up" style="animation-delay: 0.7s;">
+      <h3 style="color:var(--primary-color); margin:30px 0 10px;">Infrastructure</h3>
+      <ul style="padding-left:20px;">
+        <li>The website is hosted on a free AWS EC2 instance running Ubuntu.</li>
+        <li>Apache2 web server serves both frontend and backend.</li>
+        <li>Deployment is done manually from a GitHub repository.</li>
+        <li>Frontend and backend are located in the same repository for easier deployment.</li>
+      </ul>
+
+      <p style="margin-top:20px;">
+        This website not only provides an entertaining experience for users but also serves as the foundation for the next stages of the project, where a real AI for gesture recognition and a robotic hand for physical interaction will be implemented.
+      </p>
+    </div>
+  </section>
+
+  <section class="about-section fade-in-up" style="background:white; border-radius:12px; box-shadow:var(--shadow); padding:30px;">
+    <h2 style="color:var(--primary-color); margin-bottom:20px;" class="slide-in-left">Technologies</h2>
+    <div class="image-gallery fade-in-up">
+      <div class="gallery-image">
+        <div style="background:#f6f6f6; height:100px; display:flex; align-items:center; justify-content:center; font-size:2em; color:var(--primary-color);">HTML5</div>
+      </div>
+      <div class="gallery-image">
+        <div style="background:#f6f6f6; height:100px; display:flex; align-items:center; justify-content:center; font-size:2em; color:var(--primary-color);">CSS3</div>
+      </div>
+      <div class="gallery-image">
+        <div style="background:#f6f6f6; height:100px; display:flex; align-items:center; justify-content:center; font-size:2em; color:var(--primary-color);">JS</div>
+      </div>
+    </div>
+    <div class="image-gallery fade-in-up" style="animation-delay: 0.3s;">
+      <div class="gallery-image">
+        <div style="background:#f6f6f6; height:100px; display:flex; align-items:center; justify-content:center; font-size:2em; color:var(--primary-color);">PHP</div>
+      </div>
+      <div class="gallery-image">
+        <div style="background:#f6f6f6; height:100px; display:flex; align-items:center; justify-content:center; font-size:2em; color:var(--primary-color);">SQLite</div>
+      </div>
+      <div class="gallery-image">
+        <div style="background:#f6f6f6; height:100px; display:flex; align-items:center; justify-content:center; font-size:2em; color:var(--primary-color);">AWS</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer style="text-align:center; margin-top:40px; color:#888;" class="fade-in">
+  &copy; 2025 Rock Scissors Paper
+</footer>
+</body>
+</html>
