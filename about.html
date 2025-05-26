@@ -5,11 +5,14 @@
   <title>About | Rock Scissors Paper</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
   <script type="module" src="js/animations.js"></script>
 </head>
 <body>
 <header class="fade-in">
-  <h1>About</h1>
+  <a href="index.html" style="display: flex; justify-content: center; align-items: center; margin-bottom: 18px;">
+    <img src="img/logo.png" alt="Rock Scissors Paper Logo" class="site-logo" style="height:180px;">
+  </a>
   <nav style="text-align:center; margin-bottom:30px;">
     <a href="index.html" class="nav-link">Game</a>
     <a href="about.html" class="nav-link active">About</a>
@@ -24,7 +27,7 @@
       The website is the first stage of a larger project and represents an interactive game where the user competes against a computer opponent in the classic "Rock, Paper, Scissors" game.<br><br>
       The main goal of this stage is to create a fun and engaging online experience that not only allows users to play, but also demonstrates the foundation for more advanced features in the future. The site features a leaderboard, smooth animations, and a pseudo-AI opponent that analyzes your moves to provide a more challenging gameplay.<br><br>
       This project is open source, and you can find the full code and follow the development on my GitHub:<br>
-      <a href="https://github.com/user-heets/RCP_project" target="_blank" class="github-button">
+      <a href="https://github.com/user-heets/RCP_project" target="_blank" class="main-button">
         GitHub Repository
       </a>
     </p>
@@ -39,7 +42,7 @@
       </div>
       <p>Development of an interactive website where users can play "Rock, Paper, Scissors" against the computer.</p>
       <div class="gallery-image">
-        <img src="https://placehold.co/800x400" alt="Website Stage" style="max-width:100%; border-radius:8px; margin-top:10px;">
+        <img src="img/web.png" alt="Website Stage" style="max-width:90%; border-radius:8px; margin-top:10px;">
       </div>
     </div>
 
@@ -50,7 +53,7 @@
       </div>
       <p>Creation and training of an artificial intelligence model capable of recognizing hand gestures (rock, paper, scissors) in real time via camera.</p>
       <div class="gallery-image">
-        <img src="https://placehold.co/800x400" alt="AI Model Stage" style="max-width:100%; border-radius:8px; margin-top:10px;">
+        <img src="img/ai.png" alt="AI Model Stage" style="max-width:90%; border-radius:8px; margin-top:10px;">
       </div>
     </div>
 
@@ -61,7 +64,7 @@
       </div>
       <p>Development of a robotic hand that will play "Rock, Paper, Scissors" with a human and always win.</p>
       <div class="gallery-image">
-        <img src="https://placehold.co/800x400" alt="Robotic Hand Stage" style="max-width:100%; border-radius:8px; margin-top:10px;">
+        <img src="img/robo.png" alt="Robotic Hand Stage" style="max-width:90%; border-radius:8px; margin-top:10px;">
       </div>
     </div>
   </section>
@@ -79,6 +82,12 @@
     </p>
   </section>
 
+  <section class="about-section try-block fade-in-up" style="background:white; border-radius:12px; box-shadow:var(--shadow); padding:30px; margin-bottom:30px; text-align:center;">
+    <h2 style="color:var(--primary-color); margin-bottom:18px;">Challenge!</h2>
+    <p style="font-size:1.1em; margin-bottom:22px;">Try not to lose to me in <strong>Rock, Paper, Scissors</strong> — click the button and start the game!</p>
+    <a href="index.html" class="try-game-button">Play Now</a>
+  </section>
+
   <section class="about-section fade-in-up" style="background:white; border-radius:12px; box-shadow:var(--shadow); padding:30px; margin-bottom:30px;">
     <h2 style="color:var(--secondary-color); margin-bottom:20px;" class="slide-in-right">Technical Implementation</h2>
 
@@ -91,7 +100,7 @@
         </li>
         <li class="tech-item">
           <div class="tech-icon">CSS</div>
-          Animations are implemented using CSS <code>@keyframes</code> for smooth transitions
+          Animations are implemented using CSS @keyframes for smooth transitions
         </li>
       </ul>
 
@@ -196,7 +205,7 @@
   </section>
 
   <section class="about-section fade-in-up" style="background:white; border-radius:12px; box-shadow:var(--shadow); padding:30px;">
-    <h2 style="color:var(--primary-color); margin-bottom:20px;" class="slide-in-left">Technologies</h2>
+    <h2 style="color:var(--secondary-color); margin-bottom:20px;" class="slide-in-left">Technologies</h2>
     <div class="image-gallery fade-in-up">
       <div class="gallery-image">
         <div style="background:#f6f6f6; height:100px; display:flex; align-items:center; justify-content:center; font-size:2em; color:var(--primary-color);">HTML5</div>

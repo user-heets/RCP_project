@@ -13,7 +13,7 @@
 
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Fredoka', 'Roboto', sans-serif;
     max-width: 100%;
     margin: 0;
     padding: 20px;
@@ -22,12 +22,22 @@ body {
     line-height: 1.6;
 }
 
-h1 {
-    text-align: center;
-    color: var(--text-color);
-    font-size: 2em;
-    font-weight: 500;
-    margin-bottom: 30px;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fredoka', 'Roboto', Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+
+.site-logo {
+    height: 64px;
+    max-width: 90vw;
+    display: block;
+    margin: 0 auto;
+    transition: transform 0.2s;
+}
+.site-logo:hover {
+    transform: scale(1.05) rotate(-3deg);
 }
 
 #name-input {
@@ -253,8 +263,8 @@ tr:hover {
 }
 
 .tech-icon {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     margin-right: 15px;
     background-color: var(--primary-color);
     border-radius: 50%;
@@ -315,7 +325,7 @@ tr:hover {
 
 .code-label {
     position: absolute;
-    top: -10px;
+    top: 1px;
     right: 10px;
     background: var(--primary-color);
     color: white;
@@ -479,7 +489,7 @@ tr:hover {
     }
 }
 
-.github-button {
+.main-button {
     display: inline-block;
     padding: 10px 20px;
     font-size: 16px;
@@ -493,6 +503,32 @@ tr:hover {
     transition: background-color 0.3s ease;
 }
 
-.github-button:hover {
+.main-button:hover {
     background-color: var(--secondary-color);
+}
+
+.try-block {
+    border: 2px dashed var(--primary-color);
+    background: linear-gradient(90deg, #f5f6fa 60%, #eaf6ff 100%);
+}
+
+.try-game-button {
+    display: inline-block;
+    padding: 12px 32px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+    text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+}
+
+.try-game-button:hover {
+    background: linear-gradient(90deg, #217dbb, #27ae60);
+    transform: translateY(-2px) scale(1.04);
 }

@@ -5,41 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Scissors Paper</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script type="module" src="js/animations.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<h1>Rock Scissors Paper</h1>
+<header class="fade-in">
+    <a href="index.html" style="display: flex; justify-content: center; align-items: center; margin-bottom: 18px;">
+        <img src="img/logo.png" alt="Rock Scissors Paper Logo" class="site-logo" style="height:180px;">
+    </a>
+    <nav style="text-align:center; margin-bottom:30px;">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+    </nav>
+</header>
 
-<div id="name-input">
-    <label for="player-name">Your Name:</label>
-    <input type="text" id="player-name">
-    <button id="start-game">Start Game</button>
-</div>
+<main style="max-width:800px; margin:0 auto;">
+    <section class="main-section fade-in-up" style="background:white; border-radius:12px; box-shadow:var(--shadow); padding:30px; margin-bottom:30px;">
+        <div id="name-input">
+            <label for="player-name" style="font-weight:500; color:var(--primary-color);">Your Name:</label>
+            <input type="text" id="player-name">
+            <a id="start-game" class="try-game-button">Play Now</a>
+        </div>
 
-<div id="game" style="display: none;">
-    <p>Round: <span id="round">0</span>, Wins: <span id="wins">0</span></p>
-    <p>Make your choice:</p>
-    <span class="choice" data-choice="rock">🪨Rock</span>
-    <span class="choice" data-choice="paper">📄Paper</span>
-    <span class="choice" data-choice="scissors"> ✂️Scissors</span>
-</div>
+        <div id="game" style="display: none;">
+            <p>Round: <span id="round">0</span>, Wins: <span id="wins">0</span></p>
+            <p>Make your choice:</p>
+            <span class="choice" data-choice="rock">🪨Rock</span>
+            <span class="choice" data-choice="paper">📄Paper</span>
+            <span class="choice" data-choice="scissors">✂️Scissors</span>
+        </div>
 
-<div id="result" class="result"></div>
+        <div id="result" class="result"></div>
+    </section>
 
-<div class="leaderboard">
-    <h2>Top 20 Players</h2>
-    <table id="leaderboard-table">
-        <thead>
-        <tr>
-            <th>Place</th>
-            <th>Name</th>
-            <th>Wins</th>
-            <th>Date</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-</div>
+    <section class="leaderboard-section fade-in-up" style="background:white; border-radius:12px; box-shadow:var(--shadow); padding:30px;">
+        <h2 style="text-align:center; color:var(--primary-color); font-weight:500; margin-bottom:20px;">Top 20 Players</h2>
+        <table id="leaderboard-table">
+            <thead>
+            <tr>
+                <th>Place</th>
+                <th>Name</th>
+                <th>Wins</th>
+                <th>Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<footer style="text-align:center; margin-top:40px; color:#888;" class="fade-in">
+    &copy; 2025 Rock Sizers Paper
+</footer>
 
 <script type="module" src="js/main.js"></script>
 </body>
