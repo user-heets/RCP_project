@@ -18,17 +18,45 @@ class GameLogic {
             session_start();
         }
 
-        // Check session
         if (!isset($_SESSION['security_initiated'])) {
             session_regenerate_id(true);
             $_SESSION['security_initiated'] = true;
         }
     }
 
+    private function getClientIp(): string {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            return $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            return explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])[0];
+        } else {
+            return $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+        }
+    }
+
     public function startNewGame(string $player_name): void {
+        $ip = $this->getClientIp();
+
+        // IP rate limiting: 2 games 60 sec for one IP
+        $stmt = $this->db->prepare(
+            "SELECT COUNT(*) as cnt FROM ip_game_starts
+             WHERE ip = ? AND started_at > DATETIME('now', '-60 seconds')"
+        );
+        $stmt->execute([$ip]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row && $row['cnt'] >= 2) {
+            throw new Exception('Too many new games from your IP. Please try again later.');
+        }
+
         if (isset($_SESSION['game_id']) && isset($_SESSION['round']) && $_SESSION['round'] < 10) {
             throw new Exception('Game already in progress. Finish current game first.');
         }
+
+        // Log new game
+        $stmt = $this->db->prepare(
+            "INSERT INTO ip_game_starts (ip) VALUES (?)"
+        );
+        $stmt->execute([$ip]);
 
         $game_id = uniqid();
         $_SESSION['game_id'] = $game_id;
@@ -117,7 +145,7 @@ class GameLogic {
             "SELECT COUNT(*) as move_count
             FROM games
             WHERE game_id = ? AND player_name = ?
-            AND played_at > datetime('now', '-10 seconds')"
+            AND played_at > DATETIME('now', '-10 seconds')"
         );
         $stmt->execute([$game_id, $player_name]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);

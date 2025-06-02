@@ -20,6 +20,16 @@ try {
         played_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )");
 
+    // IP rate limiting
+    $db->exec("CREATE TABLE IF NOT EXISTS ip_game_starts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        ip TEXT,
+        started_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )");
+
+    // Garbage
+    $db->exec("DELETE FROM ip_game_starts WHERE started_at < DATETIME('now', '-1 day')");
+
 } catch(PDOException $e) {
     throw new Exception('Database connection failed: ' . $e->getMessage());
 }
