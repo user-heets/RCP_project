@@ -1,12 +1,13 @@
 const API_BASE_URL = 'backend/api.php';
 
-export async function startNewGame(playerName) {
+export async function startNewGame(playerName, captchaToken) {
     const response = await fetch(API_BASE_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             new_game: true,
-            player_name: playerName
+            player_name: playerName,
+            captcha_token: captchaToken
         })
     });
 

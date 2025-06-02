@@ -31,9 +31,40 @@ try {
     }
     elseif (isset($data['new_game'])) {
         $player_name = isset($data['player_name']) ? trim($data['player_name']) : '';
+        $captcha_token = $data['captcha_token'] ?? '';
+
         if (empty($player_name)) {
             throw new Exception('Player name is required');
         }
+        if (empty($captcha_token)) {
+            throw new Exception('Captcha is required');
+        }
+
+        // reCAPTCHA v3
+        $secret = 'SECRET_KEY'; // ADD AFTER DEPLOY
+        $verify_url = "https://www.google.com/recaptcha/api/siteverify?secret={$secret}&response={$captcha_token}";
+
+        $verify_response = file_get_contents($verify_url);
+        if ($verify_response === false) {
+            throw new Exception('Failed to verify captcha');
+        }
+
+        $captcha_result = json_decode($verify_response, true);
+
+        if (!$captcha_result['success']) {
+            throw new Exception('Captcha verification failed');
+        }
+
+        // score reCAPTCHA v3 (>= 0.5)
+        if (!isset($captcha_result['score']) || $captcha_result['score'] < 0.5) {
+            throw new Exception('Captcha score too low. Please try again.');
+        }
+
+        // action
+        if (isset($captcha_result['action']) && $captcha_result['action'] !== 'start_game') {
+            throw new Exception('Invalid captcha action');
+        }
+
         $game->startNewGame($player_name);
         $response['message'] = 'Game started';
     }

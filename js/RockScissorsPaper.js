@@ -52,23 +52,37 @@ export class RockScissorsPaper {
             return;
         }
 
-        try {
-            const data = await startNewGame(this.playerName);
+        // Check reCAPTCHA
+        if (typeof grecaptcha === 'undefined') {
+            showNotification('reCAPTCHA is not loaded. Please reload the page.', 'error');
+            return;
+        }
 
-            if (data.success) {
-                this.gameInProgress = true;
-                this.resetGameUI();
-                this.cachedElements['game'].classList.add('fade-in');
-                showNotification(`Game started, good luck ${this.playerName}!`, 'success');
-            } else {
-                // Show back err
-                showNotification(data.error || 'Unknown error occurred', 'error');
-                throw new Error(data.error || 'Unknown error occurred');
-            }
+        try {
+            // reCAPTCHA v3: get token
+            grecaptcha.ready(() => {
+                grecaptcha.execute('6Lc6c1MrAAAAAFROPC56NBZgsWrYMCnAbWL1hzVF', {action: 'start_game'}).then(async (token) => {
+                    try {
+                        const data = await startNewGame(this.playerName, token);
+
+                        if (data.success) {
+                            this.gameInProgress = true;
+                            this.resetGameUI();
+                            this.cachedElements['game'].classList.add('fade-in');
+                            showNotification(`Game started, good luck ${this.playerName}!`, 'success');
+                        } else {
+                            showNotification(data.error || 'Unknown error occurred', 'error');
+                            throw new Error(data.error || 'Unknown error occurred');
+                        }
+                    } catch (error) {
+                        showNotification('Error. Try again', 'error');
+                        console.error('Start game error:', error);
+                    }
+                });
+            });
         } catch (error) {
-            // show internal err 
-            showNotification('Error. Try again', 'error');
-            console.error('Start game error:', error);
+            showNotification('reCAPTCHA error. Try again.', 'error');
+            console.error('reCAPTCHA error:', error);
         }
     }
 
