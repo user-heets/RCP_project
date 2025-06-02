@@ -10,14 +10,33 @@ class GameLogic {
 
     public function __construct(PDO $db) {
         $this->db = $db;
+        $this->initSession();
+    }
+
+    private function initSession(): void {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Check session
+        if (!isset($_SESSION['security_initiated'])) {
+            session_regenerate_id(true);
+            $_SESSION['security_initiated'] = true;
+        }
     }
 
     public function startNewGame(string $player_name): void {
+        if (isset($_SESSION['game_id']) && isset($_SESSION['round']) && $_SESSION['round'] < 10) {
+            throw new Exception('Game already in progress. Finish current game first.');
+        }
+
         $game_id = uniqid();
         $_SESSION['game_id'] = $game_id;
         $_SESSION['round'] = 0;
         $_SESSION['wins'] = 0;
         $_SESSION['player_name'] = $player_name;
+
+        unset($_SESSION['last_move_time']);
     }
 
     public function getLeaderboard(): array {
@@ -34,12 +53,15 @@ class GameLogic {
     public function playRound(string $player_name, string $user_choice): array {
         $this->validateChoice($user_choice);
         $this->validateGameSession($player_name);
+        $this->enforceRateLimit(); // Speed Protector
 
         $game_id = $_SESSION['game_id'];
+        $this->validateMoveFrequency($game_id, $player_name); // Spam Protector
+
         $ai_choice = $this->getAIChoice($game_id, $player_name);
         $result = $this->determineWinner($user_choice, $ai_choice);
 
-        // drw cause
+        // draw case
         if ($result === 'draw') {
             return [
                 'ai_choice' => $ai_choice,
@@ -74,6 +96,35 @@ class GameLogic {
             'wins' => $current_wins,
             'game_over' => $game_over
         ];
+    }
+
+    private function enforceRateLimit(): void {
+        $current_time = time();
+
+        if (isset($_SESSION['last_move_time'])) {
+            $time_diff = $current_time - $_SESSION['last_move_time'];
+            if ($time_diff < 1) {
+                throw new Exception('Please wait 1 second before making next move');
+            }
+        }
+
+        $_SESSION['last_move_time'] = $current_time;
+    }
+
+    private function validateMoveFrequency(string $game_id, string $player_name): void {
+        // speed test
+        $stmt = $this->db->prepare(
+            "SELECT COUNT(*) as move_count
+            FROM games
+            WHERE game_id = ? AND player_name = ?
+            AND played_at > datetime('now', '-10 seconds')"
+        );
+        $stmt->execute([$game_id, $player_name]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result['move_count'] >= 5) {
+            throw new Exception('Too many moves in short time. Please slow down!');
+        }
     }
 
     private function validateChoice(string $choice): void {
@@ -140,19 +191,20 @@ class GameLogic {
     }
 
     private function finalizeGame(string $player_name): void {
-        // save to lb
+        // save to leaderboard
         $stmt = $this->db->prepare(
             "INSERT INTO leaderboard (player_name, wins)
             VALUES (?, ?)"
         );
         $stmt->execute([$player_name, $_SESSION['wins']]);
 
-        //clean
+        // clean session
         unset(
             $_SESSION['game_id'],
             $_SESSION['round'],
             $_SESSION['wins'],
-            $_SESSION['player_name']
+            $_SESSION['player_name'],
+            $_SESSION['last_move_time']
         );
     }
 }
