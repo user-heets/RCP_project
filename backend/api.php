@@ -44,6 +44,16 @@ try {
         $result = $game->playRound($data['player_name'], $data['user_choice']);
         $response = array_merge($response, $result);
     }
+    elseif (isset($data['reset_game'])) {
+        unset(
+            $_SESSION['game_id'],
+            $_SESSION['round'],
+            $_SESSION['wins'],
+            $_SESSION['player_name'],
+            $_SESSION['last_move_time']
+        );
+        $response['message'] = 'Game reset';
+    }
     else {
         throw new Exception('Invalid request type');
     }

@@ -61,9 +61,12 @@ export class RockScissorsPaper {
                 this.cachedElements['game'].classList.add('fade-in');
                 showNotification(`Game started, good luck ${this.playerName}!`, 'success');
             } else {
+                // Show back err
+                showNotification(data.error || 'Unknown error occurred', 'error');
                 throw new Error(data.error || 'Unknown error occurred');
             }
         } catch (error) {
+            // show internal err 
             showNotification('Error. Try again', 'error');
             console.error('Start game error:', error);
         }
@@ -94,6 +97,8 @@ export class RockScissorsPaper {
             if (data.success) {
                 this.updateGameState(data, userChoice);
             } else {
+                // show back err
+                showNotification(data.error || 'Unknown error occurred', 'error');
                 throw new Error(data.error || 'Unknown error occurred');
             }
         } catch (error) {
@@ -102,6 +107,7 @@ export class RockScissorsPaper {
             this.cachedElements['result'].textContent = '👾 Game over! Start new game';
             this.cachedElements['name-input'].style.display = 'block';
             this.cachedElements['game'].style.display = 'none';
+            // show internal err
             showNotification('Error. Try again', 'error');
         } finally {
             setTimeout(() => {
@@ -183,6 +189,8 @@ export class RockScissorsPaper {
             if (data.success) {
                 this.updateLeaderboardTable(data.leaderboard);
             } else {
+                // show err
+                showNotification(data.error || 'Failed to fetch leaderboard', 'error');
                 throw new Error(data.error || 'Failed to fetch leaderboard');
             }
         } catch (error) {

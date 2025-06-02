@@ -22,22 +22,6 @@ class GameLogic {
             session_regenerate_id(true);
             $_SESSION['security_initiated'] = true;
         }
-
-        // Check last last_activity
-        $inactive_timeout = 120; // 120 sec to reset game
-        if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $inactive_timeout)) {
-            // Reset game
-            unset(
-                $_SESSION['game_id'],
-                $_SESSION['round'],
-                $_SESSION['wins'],
-                $_SESSION['player_name'],
-                $_SESSION['last_move_time']
-            );
-            session_regenerate_id(true); // ID
-            $_SESSION['message'] = 'Game reset due to inactivity';
-        }
-        $_SESSION['last_activity'] = time();
     }
 
     private function getClientIp(): string {
@@ -53,7 +37,7 @@ class GameLogic {
     public function startNewGame(string $player_name): void {
         $ip = $this->getClientIp();
 
-        // IP rate limiting: 2 games 60 sec for one IP
+        // IP rate limiting: 2 game - one minute
         $stmt = $this->db->prepare(
             "SELECT COUNT(*) as cnt FROM ip_game_starts
              WHERE ip = ? AND started_at > DATETIME('now', '-60 seconds')"
@@ -64,11 +48,6 @@ class GameLogic {
             throw new Exception('Too many new games from your IP. Please try again later.');
         }
 
-        if (isset($_SESSION['game_id']) && isset($_SESSION['round']) && $_SESSION['round'] < 10) {
-            throw new Exception('Game already in progress. Finish current game first.');
-        }
-
-        // Log new game
         $stmt = $this->db->prepare(
             "INSERT INTO ip_game_starts (ip) VALUES (?)"
         );
@@ -82,9 +61,6 @@ class GameLogic {
 
         // Reset last game
         unset($_SESSION['last_move_time']);
-
-        // Last last_activity
-        $_SESSION['last_activity'] = time();
     }
 
     public function getLeaderboard(): array {
@@ -101,13 +77,8 @@ class GameLogic {
     public function playRound(string $player_name, string $user_choice): array {
         $this->validateChoice($user_choice);
         $this->validateGameSession($player_name);
-        $this->enforceRateLimit(); // Speed Protector
 
         $game_id = $_SESSION['game_id'];
-        $this->validateMoveFrequency($game_id, $player_name);
-        
-        // Renew  last_activity
-        $_SESSION['last_activity'] = time();
 
         $ai_choice = $this->getAIChoice($game_id, $player_name);
         $result = $this->determineWinner($user_choice, $ai_choice);
@@ -147,35 +118,6 @@ class GameLogic {
             'wins' => $current_wins,
             'game_over' => $game_over
         ];
-    }
-
-    private function enforceRateLimit(): void {
-        $current_time = time();
-
-        if (isset($_SESSION['last_move_time'])) {
-            $time_diff = $current_time - $_SESSION['last_move_time'];
-            if ($time_diff < 1) {
-                throw new Exception('Please wait 1 second before making next move');
-            }
-        }
-
-        $_SESSION['last_move_time'] = $current_time;
-    }
-
-    private function validateMoveFrequency(string $game_id, string $player_name): void {
-        // speed test
-        $stmt = $this->db->prepare(
-            "SELECT COUNT(*) as move_count
-            FROM games
-            WHERE game_id = ? AND player_name = ?
-            AND played_at > DATETIME('now', '-10 seconds')"
-        );
-        $stmt->execute([$game_id, $player_name]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($result['move_count'] >= 5) {
-            throw new Exception('Too many moves in short time. Please slow down!');
-        }
     }
 
     private function validateChoice(string $choice): void {
