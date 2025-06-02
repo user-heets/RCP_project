@@ -22,6 +22,22 @@ class GameLogic {
             session_regenerate_id(true);
             $_SESSION['security_initiated'] = true;
         }
+
+        // Check last last_activity
+        $inactive_timeout = 120; // 120 sec to reset game
+        if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $inactive_timeout)) {
+            // Reset game
+            unset(
+                $_SESSION['game_id'],
+                $_SESSION['round'],
+                $_SESSION['wins'],
+                $_SESSION['player_name'],
+                $_SESSION['last_move_time']
+            );
+            session_regenerate_id(true); // ID
+            $_SESSION['message'] = 'Game reset due to inactivity';
+        }
+        $_SESSION['last_activity'] = time();
     }
 
     private function getClientIp(): string {
@@ -64,7 +80,11 @@ class GameLogic {
         $_SESSION['wins'] = 0;
         $_SESSION['player_name'] = $player_name;
 
+        // Reset last game
         unset($_SESSION['last_move_time']);
+
+        // Last last_activity
+        $_SESSION['last_activity'] = time();
     }
 
     public function getLeaderboard(): array {
@@ -84,7 +104,10 @@ class GameLogic {
         $this->enforceRateLimit(); // Speed Protector
 
         $game_id = $_SESSION['game_id'];
-        $this->validateMoveFrequency($game_id, $player_name); // Spam Protector
+        $this->validateMoveFrequency($game_id, $player_name);
+        
+        // Renew  last_activity
+        $_SESSION['last_activity'] = time();
 
         $ai_choice = $this->getAIChoice($game_id, $player_name);
         $result = $this->determineWinner($user_choice, $ai_choice);
